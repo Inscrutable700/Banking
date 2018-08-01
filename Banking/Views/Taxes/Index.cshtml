@@ -1,0 +1,68 @@
+﻿@model PBTaxesAspNetCore.ViewModels.TaxesViewModel
+
+<h2>Доходы предприятия</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Дата
+            </th>
+            <th>
+                Облагается налогом
+            </th>
+            <th>
+                Описание дохода
+            </th>
+            <th>
+                Сума дохода
+            </th>
+            <th>
+                Валюта
+            </th>
+            <th>
+                Курс
+            </th>
+            <th>
+                Сума в гривнах
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var statement in Model.Statements)
+        {
+            <tr>
+                <td>
+                    @statement.Date.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    @if (statement.IsTaxed)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-remove"></span>
+                    }
+                </td>
+                <td>
+                    @statement.Description
+                </td>
+                <td>
+                    @statement.Amount
+                </td>
+                <td>
+                    @statement.CCY
+                </td>
+                <td>
+                    @statement.CurrencyExchange
+                </td>
+                <td>
+                    @statement.AmountInUAH
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Общая сумма дохода с @Model.StartDate.ToString("dd.MM.yyyy") по @Model.EndDate.ToString("dd.MM.yyyy") составляет @Model.FullAmount.ToString("F")</h2>
+<h2>Надо отдать в налоговую @Model.TaxesAmount.ToString("F") грн по ставке @Model.InterestRate%</h2>
